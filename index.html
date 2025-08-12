@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Transform your raw ideas into structured, actionable projects with AI">
+    <meta name="keywords" content="AI, idea processor, project planning, productivity">
+    <meta name="author" content="AI Idea Processor">
+
+```
+<title>AI Idea Processor - Transform Ideas into Projects</title>
+
+<!-- Stylesheets -->
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/responsive.css">
+
+<!-- PWA Meta Tags -->
+<meta name="theme-color" content="#667eea">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Idea Processor">
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="AI Idea Processor">
+<meta property="og:description" content="Transform your raw ideas into structured, actionable projects">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourusername.github.io/ai-idea-processor">
+```
+
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🚀 AI Idea Processor</h1>
+            <p>Transform your raw ideas into structured, actionable projects</p>
+        </header>
+
+```
+    <!-- Main Content Grid -->
+    <main class="main-content">
+        <!-- Input Section -->
+        <section class="input-section">
+            <h2 class="section-title">
+                💡 Capture Your Idea
+            </h2>
+            
+            <!-- API Configuration -->
+            <div class="api-config">
+                <label for="apiKey" class="api-label">OpenAI API Key:</label>
+                <input type="password" id="apiKey" class="api-input" placeholder="sk-..." autocomplete="off" />
+                <small class="api-help">Your key is stored locally and never sent anywhere except OpenAI</small>
+            </div>
+
+            <!-- Idea Input -->
+            <textarea 
+                id="ideaInput" 
+                class="input-area" 
+                placeholder="Describe your idea here... it can be rough, incomplete, or just a few scattered thoughts. The AI will help structure it into a comprehensive project plan.&#10;&#10;Example: 'I want to create an app that helps people track their daily habits and gives them insights about their patterns over time...'"
+                maxlength="2000"></textarea>
+
+            <!-- Character Counter -->
+            <div class="char-counter">
+                <span id="charCount">0</span>/2000 characters
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button id="processBtn" class="btn btn-primary" aria-label="Process your idea with AI">
+                    ⚡ Process Idea
+                </button>
+                <button id="clearBtn" class="btn btn-secondary" aria-label="Clear input">
+                    🗑️ Clear
+                </button>
+                <button id="voiceBtn" class="btn btn-secondary" aria-label="Use voice input">
+                    🎤 Voice Input
+                </button>
+                <button id="pasteBtn" class="btn btn-secondary" aria-label="Paste from clipboard">
+                    📋 Paste
+                </button>
+            </div>
+        </section>
+
+        <!-- Output Section -->
+        <section class="output-section">
+            <h2 class="section-title">
+                📋 Structured Project
+            </h2>
+            
+            <div id="outputArea" aria-live="polite">
+                <div class="empty-state">
+                    <div class="empty-icon">🎯</div>
+                    <h3>Your structured project will appear here</h3>
+                    <p>Enter an idea and click "Process Idea" to get started</p>
+                </div>
+            </div>
+
+            <!-- Processing Overlay -->
+            <div id="processingOverlay" class="processing-overlay" style="display: none;">
+                <div class="processing-content">
+                    <div class="spinner"></div>
+                    <h3>Processing Your Idea</h3>
+                    <p>AI is analyzing and structuring your project...</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Ideas Bank Section -->
+    <section class="ideas-bank">
+        <header class="bank-header">
+            <h2 class="section-title">
+                🏦 Ideas Bank
+            </h2>
+            
+            <!-- Search and Filter -->
+            <div class="bank-controls">
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search ideas..." />
+                    <button id="searchBtn" class="btn-icon" aria-label="Search ideas">🔍</button>
+                </div>
+                
+                <select id="sortSelect" class="sort-select" aria-label="Sort ideas">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="title">Title A-Z</option>
+                    <option value="length">Longest First</option>
+                </select>
+            </div>
+        </header>
+        
+        <!-- Statistics Dashboard -->
+        <div class="stats-dashboard">
+            <div class="stat-card">
+                <div class="stat-number" id="totalIdeas">0</div>
+                <div class="stat-label">Total Ideas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="thisMonth">0</div>
+                <div class="stat-label">This Month</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgLength">0</div>
+                <div class="stat-label">Avg Length</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalWords">0</div>
+                <div class="stat-label">Total Words</div>
+            </div>
+        </div>
+
+        <!-- Bank Actions -->
+        <div class="bank-actions">
+            <button id="exportBtn" class="btn btn-secondary">
+                📥 Export All
+            </button>
+            <button id="importBtn" class="btn btn-secondary">
+                📤 Import
+            </button>
+            <input type="file" id="importFile" accept=".json" style="display: none;" />
+            <button id="clearBankBtn" class="btn btn-secondary btn-danger">
+                🗑️ Clear All
+            </button>
+            <button id="backupBtn" class="btn btn-secondary">
+                💾 Backup
+            </button>
+        </div>
+
+        <!-- Ideas Container -->
+        <div id="ideasContainer" class="ideas-container">
+            <div class="empty-state">
+                <div class="empty-icon">💡</div>
+                <h3>No ideas saved yet</h3>
+                <p>Process your first idea above to get started!</p>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="pagination" style="display: none;">
+            <button id="prevPage" class="btn btn-secondary">← Previous</button>
+            <span id="pageInfo" class="page-info">Page 1 of 1</span>
+            <button id="nextPage" class="btn btn-secondary">Next →</button>
+        </div>
+    </section>
+</div>
+
+<!-- Modal for Idea Details -->
+<div id="ideaModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Idea Details</h3>
+            <button id="closeModal" class="btn-close" aria-label="Close modal">×</button>
+        </div>
+        <div class="modal-body" id="modalBody">
+            <!-- Idea details will be inserted here -->
+        </div>
+        <div class="modal-footer">
+            <button id="modalCopy" class="btn btn-secondary">📋 Copy</button>
+            <button id="modalEdit" class="btn btn-secondary">✏️ Edit</button>
+            <button id="modalDelete" class="btn btn-danger">🗑️ Delete</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notifications -->
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- Scripts -->
+<script src="js/storage.js"></script>
+<script src="js/api.js"></script>
+<script src="js/app.js"></script>
+
+<!-- Service Worker Registration -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                console.log('SW registered: ', registration);
+            }).catch(function(registrationError) {
+                console.log('SW registration failed: ', registrationError);
+            });
+        });
+    }
+</script>
+```
+
+</body>
+</html>
